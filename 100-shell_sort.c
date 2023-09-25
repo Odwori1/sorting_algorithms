@@ -1,35 +1,33 @@
 #include "sort.h"
 
-void swap(int *a, int *b);
 /**
- * shell_sort - Sort an arr of integers using shell sort algo.
- * @array: An array of integers.
- * @size: The size of the array.
+ * shell_sort - Sorts an array of integers using the Shell sort algorithm
+ *              with the Knuth sequence
  *
- * Description: Uses the Knuth interval sequence.
+ * @array: The array of integers to be sorted
+ * @size: The size of the array
  */
-
 void shell_sort(int *array, size_t size)
 {
+    size_t gap = 1, i, j;
+    int tmp;
 
-	size_t interval, i, j;
+    if (!array || size < 2)
+        return;
 
-	if (array == NULL || size < 2)
-		return;
+    while (gap < size / 3)
+        gap = gap * 3 + 1;
 
-	for (interval = size / 2; interval > 0; interval /= 2)
-	{
-		for (i = interval; i < size; i++)
-		{
-			int temp = array[i];
-
-			for (j = i; j >= interval && array[j - interval] > temp; j -= interval)
-			{
-				array[j] = array[j - interval];
-			}
-
-			array[j] = temp;
-		}
-		print_array(array, size);
-	}
+    while (gap >= 1)
+    {
+        for (i = gap; i < size; i++)
+        {
+            tmp = array[i];
+            for (j = i; j >= gap && array[j - gap] > tmp; j -= gap)
+                array[j] = array[j - gap];
+            array[j] = tmp;
+        }
+        gap = (gap - 1) / 3;
+        print_array(array, size);
+    }
 }
